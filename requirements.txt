@@ -1,0 +1,4 @@
+flask
+sounddevice
+numpy
+soundfile
