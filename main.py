@@ -3,12 +3,12 @@ import music
 from flask import Flask, request, jsonify
 from player import MusicPlayer
 import json
+import threading
 
 app = Flask(__name__)
 player = MusicPlayer()
 
-
-app.route("/")
+@app.route("/")
 def main():
     return "Server has started"
 
@@ -24,25 +24,46 @@ def super():
 def available():
     return jsonify(music.get_available_songs())
 
+def play_playlist(playlist_name):
+    for song in config.PLAYLISTS[playlist_name]:
+        song_path = f"{config.MUSIC_DIR}/{song}"
+        if player.play(song_path):
+            print(f"Now playing: {song}")
+        else:
+            print(f"Failed to play {song}")
+
 @app.route("/play", methods=["POST"])
 def play():
     data = request.json
-    print(music.get_available_songs())
-    if "key" not in data or "song" not in data:
-        return jsonify({"error": "Missing 'key' or 'song' in request"}), 400
-
-    if data["song"] not in music.get_available_songs():
-        return jsonify({"error": "Song not found"}), 404
+    if "key" not in data or ("song" not in data and "playlist" not in data):
+        return jsonify({"error": "Missing 'key', 'song', or 'playlist' in request"}), 400
 
     if data["key"] != config.KEY:
         return jsonify({"error": "Invalid key"}), 403
 
-    song_path = f"{config.MUSIC_DIR}/{data['song']}.mp3"
+    if "song" in data:
+        if data["song"] not in music.get_available_songs():
+            return jsonify({"error": "Song not found"}), 404
+
+        song_path = f"{config.MUSIC_DIR}/{data['song']}.mp3"
+        if player.play(song_path):
+            return jsonify({"message": f"Started playing {data['song']}"})
+        return jsonify({"error": "Failed to play song"}), 500
+
+    if "playlist" in data:
+        playlist_name = data["playlist"]
+        if playlist_name not in config.PLAYLISTS:
+            return jsonify({"error": "Playlist not found"}), 404
+
+        # Start playing the playlist
+        playlist_paths = [f"{config.MUSIC_DIR}/{song}" for song in config.PLAYLISTS[playlist_name]]
+        player.play_playlist(playlist_paths)
+        return jsonify({"message": f"Started playing playlist {playlist_name}"})
 
 
-    if player.play(song_path):
-        return jsonify({"message": f"Started playing {data['song']}"})
-    return jsonify({"error": "Failed to play song"}), 500
+@app.route("/playlists")
+def playlists():
+    return jsonify(config.PLAYLISTS)
 
 @app.route("/pause")
 def pause():

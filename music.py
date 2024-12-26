@@ -29,10 +29,10 @@ def organize_songs(songs):
 
         for artist in artists:
             if artist not in artist_songs:
-                if artist not in artist_songs:
-                    artist_songs[artist] = []
-                if song_title not in artist_songs[artist]:
-                    artist_songs[artist].append(song_title)
+                artist_songs[artist] = []
+                
+            if song_title not in artist_songs[artist]:
+                artist_songs[artist].append(song_title)
 
     return artist_songs
 

@@ -12,8 +12,7 @@ class MusicPlayer:
         self.data = None
         self.samplerate = None
         self.position = 0
-
-# key should be SHA-256 compliant
+        self.playlist_thread = None
 
     def callback(self, outdata, frames, time, status):
         if self.position < len(self.data):
@@ -51,6 +50,17 @@ class MusicPlayer:
             except Exception as e:
                 print(f"Error playing file: {e}")
                 return False
+
+    def play_playlist(self, playlist):
+        def playlist_worker():
+            for song in playlist:
+                if not self.play(song):
+                    print(f"Failed to play: {song}")
+                while self.is_playing:
+                    continue  # Wait for the current song to finish before proceeding
+
+        self.playlist_thread = threading.Thread(target=playlist_worker)
+        self.playlist_thread.start()
 
     def pause(self):
         with self.lock:
