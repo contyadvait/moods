@@ -6,6 +6,7 @@ It runs on a couple basic GET and POST requests to help play music directly on y
 It's very adaptable, and picks up all the MP3s you have of your favourite songs!
 
 ## Demo
+***This demo does not use the parts mentioned below because they weren't delivered in time. Will be updated once the parts are here.***
 (Demo)
 
 ## How do I make this my own?

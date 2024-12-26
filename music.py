@@ -36,7 +36,7 @@ def organize_songs(songs):
 
     return artist_songs
 
-if __name__ == "__main__":
+if __name__ == "__main__":  
     import json
     result = organize_songs(get_available_songs())
     print(json.dumps(result, indent=2, ensure_ascii=False))

@@ -9,6 +9,7 @@ PLAYLISTS = {"wind down": ["C418 - Minecraft.mp3",
                             "C418 - Wet Hands.mp3",
                             "C418 - Haggstrom.mp3"],
             "relax": ["BoyWithUke - I Wish.mp3",
-                      "BoyWithUke - Animal Crackers.mp3",
-                      "BoyWithUke - Nightmare.mp3",
-                      "BoyWithUke - Blurry Nights.mp3"]}
+                      "BoyWithUke - Animal Crackers",
+                      "BoyWithUke - Nightmare",
+                      "BoyWithUke - Blurry Nights",
+                      "BoyWithUke - Two Moons"]}

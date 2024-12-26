@@ -26,7 +26,7 @@ def available():
 
 def play_playlist(playlist_name):
     for song in config.PLAYLISTS[playlist_name]:
-        song_path = f"{config.MUSIC_DIR}/{song}"
+        song_path = f"{config.MUSIC_DIR}/{song}.mp3"
         if player.play(song_path):
             print(f"Now playing: {song}")
         else:
@@ -43,6 +43,7 @@ def play():
 
     if "song" in data:
         if data["song"] not in music.get_available_songs():
+            print("song not found!")
             return jsonify({"error": "Song not found"}), 404
 
         song_path = f"{config.MUSIC_DIR}/{data['song']}.mp3"
@@ -58,6 +59,7 @@ def play():
         # Start playing the playlist
         playlist_paths = [f"{config.MUSIC_DIR}/{song}" for song in config.PLAYLISTS[playlist_name]]
         player.play_playlist(playlist_paths)
+        print("playing playlist...")
         return jsonify({"message": f"Started playing playlist {playlist_name}"})
 
 
@@ -81,6 +83,7 @@ def resume():
 def stop():
     if player.stop():
         return jsonify({"message": "Stopped playback"})
+    print("error")
     return jsonify({"error": "No song is currently playing"}), 400
 
 if __name__ == "__main__":
