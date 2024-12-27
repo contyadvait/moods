@@ -10,6 +10,8 @@ It's very adaptable, and picks up all the MP3s you have of your favourite songs!
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/MyupkJgGn_4)](https://youtu.be/MyupkJgGn_4)
 
+## Swift App Code
+refer to MoodsApp folder or [this](https://github.com/contyadvait/moodsapp)
 
 ## How do I make this my own?
 The only things you will need to setup are the non-Python based dependencies for the requirements (check requirements.txt) and `config.py`. Here is an example `config.py` for you to use in creating your own one
